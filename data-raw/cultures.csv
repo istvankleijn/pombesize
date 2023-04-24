@@ -1,0 +1,26 @@
+culture_id,modulation,mod_value,growth_rate,ammonium_concentration,glucose_concentration,cycloheximide_concentration,nitrogen_source
+base_medium,base medium,NA,0.273,5000,20,0,Amm
+ammonium_1,ammonium,1,0.219,50,20,0,Amm
+ammonium_2,ammonium,0.8,0.192,40,20,0,Amm
+ammonium_3,ammonium,0.6,0.214,30,20,0,Amm
+ammonium_4,ammonium,0.5,0.197,25,20,0,Amm
+ammonium_5,ammonium,0.4,0.159,20,20,0,Amm
+ammonium_6,ammonium,0.3,0.097,15,20,0,Amm
+ammonium_7,ammonium,0.2,0.074,10,20,0,Amm
+glucose_1,glucose,0.2,0.223,5000,NA,0,Amm
+glucose_2,glucose,0.15,0.255,5000,NA,0,Amm
+glucose_3,glucose,0.1,0.169,5000,NA,0,Amm
+glucose_4,glucose,0.0075,0.148,5000,NA,0,Amm
+glucose_5,glucose,0.005,0.123,5000,NA,0,Amm
+cycloheximide_1,cycloheximide,0.5,0.242,5000,20,0.5,Amm
+cycloheximide_2,cycloheximide,1,0.213,5000,20,1,Amm
+cycloheximide_3,cycloheximide,2,0.21,5000,20,2,Amm
+cycloheximide_4,cycloheximide,3,0.181,5000,20,3,Amm
+cycloheximide_5,cycloheximide,4,0.17,5000,20,4,Amm
+cycloheximide_6,cycloheximide,5,0.142,5000,20,5,Amm
+nitrogen_source_1,nitrogen source,Amm,0.233,5000,20,0,Amm
+nitrogen_source_2,nitrogen source,Pro,0.2,5000,20,0,Pro
+nitrogen_source_3,nitrogen source,Ser,0.115,5000,20,0,Ser
+nitrogen_source_4,nitrogen source,Phe,0.096,5000,20,0,Phe
+nitrogen_source_5,nitrogen source,Gly,0.057,5000,20,0,Gly
+nitrogen_source_6,nitrogen source,Trp,0.059,5000,20,0,Trp
