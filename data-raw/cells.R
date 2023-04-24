@@ -1,4 +1,4 @@
-## code to prepare `cells` dataset goes here
+## code to prepare `cells` dataset
 library(here)
 
 cells <- readr::read_csv(
