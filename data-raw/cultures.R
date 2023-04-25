@@ -49,7 +49,7 @@ nitrogen_sources <- tibble::tibble(
   culture_id = stringr::str_c("nitrogen_source_", seq(6)),
   modulation = "nitrogen source",
   mod_value = c("Amm", "Pro", "Ser", "Phe", "Gly", "Trp"),
-  growth_rate = c(0.233, 0.200, 0.115, 0.096, 0.057, 0.059),
+  growth_rate = c(0.262, 0.187, 0.111, 0.096, 0.060, 0.051),
   ammonium_concentration = ammonium_base,
   glucose_concentration = glucose_base,
   cycloheximide_concentration = 0,
@@ -57,8 +57,20 @@ nitrogen_sources <- tibble::tibble(
 )
 
 cultures <- bind_rows(
-  base_medium, ammonium, glucose, cycloheximide, nitrogen_sources
-)
+    base_medium, ammonium, glucose, cycloheximide, nitrogen_sources
+  ) %>%
+  mutate(
+    modulation = factor(
+      modulation,
+      levels = c(
+        "base medium",
+        "ammonium",
+        "glucose",
+        "cycloheximide",
+        "nitrogen source"
+      )
+    )
+  )
 
 cultures %>%
   readr::write_csv(

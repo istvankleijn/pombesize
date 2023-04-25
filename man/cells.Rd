@@ -7,11 +7,11 @@
 \format{
 A data frame with 1242 rows and 7 variables:
 \describe{
-  \item{culture_id}{Conditions in which the cell was grown (details provided in \code{\link{cultures}}).}
-  \item{width}{Width in μm, averaged along the tip-to-tip axis.}
-  \item{length}{Cell length in μm.}
-  \item{surface}{Cell surface area in μm^2.}
-  \item{volume}{Cell volume in μm^3.}
+\item{culture_id}{Conditions in which the cell was grown (details provided in \code{\link{cultures}}).}
+\item{width}{Width in μm, averaged along the tip-to-tip axis.}
+\item{length}{Cell length in μm.}
+\item{surface}{Cell surface area in μm^2.}
+\item{volume}{Cell volume in μm^3.}
 }
 }
 \usage{

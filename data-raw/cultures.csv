@@ -18,9 +18,9 @@ cycloheximide_3,cycloheximide,2,0.21,5000,20,2,Amm
 cycloheximide_4,cycloheximide,3,0.181,5000,20,3,Amm
 cycloheximide_5,cycloheximide,4,0.17,5000,20,4,Amm
 cycloheximide_6,cycloheximide,5,0.142,5000,20,5,Amm
-nitrogen_source_1,nitrogen source,Amm,0.233,5000,20,0,Amm
-nitrogen_source_2,nitrogen source,Pro,0.2,5000,20,0,Pro
-nitrogen_source_3,nitrogen source,Ser,0.115,5000,20,0,Ser
+nitrogen_source_1,nitrogen source,Amm,0.262,5000,20,0,Amm
+nitrogen_source_2,nitrogen source,Pro,0.187,5000,20,0,Pro
+nitrogen_source_3,nitrogen source,Ser,0.111,5000,20,0,Ser
 nitrogen_source_4,nitrogen source,Phe,0.096,5000,20,0,Phe
-nitrogen_source_5,nitrogen source,Gly,0.057,5000,20,0,Gly
-nitrogen_source_6,nitrogen source,Trp,0.059,5000,20,0,Trp
+nitrogen_source_5,nitrogen source,Gly,0.06,5000,20,0,Gly
+nitrogen_source_6,nitrogen source,Trp,0.051,5000,20,0,Trp
