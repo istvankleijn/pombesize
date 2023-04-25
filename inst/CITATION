@@ -1,0 +1,17 @@
+citHeader("To cite pombesize in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Fission yeast obeys a linear size law under nutrient titration",
+  author   = c(
+    person("François", "Bertaux"),
+    person("Istvan T.", "Kleijn"),
+    person("Samuel", "Marguerat"),
+    person("Vahid", "Shahrezaei")
+  ),
+  journal  = "microPublication Biology",
+  year     = 2023,
+  textVersion = paste(
+
+  )
+)
