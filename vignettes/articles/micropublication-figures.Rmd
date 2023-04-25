@@ -1,0 +1,395 @@
+---
+title: "microPublication figure panels C-H"
+---
+
+# Setup
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Attach packages
+
+```{r setup}
+library(pombesize)
+library(tidyverse)
+library(ggrepel)
+library(cowplot)
+```
+
+## Plotting options
+
+```{r}
+okabe_grey <- c(
+  "#555555",  # grey
+  "#E69F00",  # orange
+  "#56B4E9",  # cyan
+  "#009E73",  # green
+  "#F0E442",  # yellow
+  "#0072B2",  # blue
+  "#D55E00",  # vermillion
+  "#CC79A7"   # pink
+)
+options(
+  ggplot2.discrete.colour = okabe_grey,
+  ggplot2.discrete.fill = okabe_grey
+)
+
+theme_set(
+  theme_bw(
+    base_size = 6,
+    base_line_size = 0.25,
+    base_rect_size = 0.5
+  ) +
+    theme(
+      legend.key.size = unit(7, "pt")
+    )
+)
+
+modulation_shapes <- c(
+  "base medium"     = 21,  # circle
+  "ammonium"        = 23,  # diamond
+  "glucose"         = 24,  # triangle up
+  "cycloheximide"   = 22,  # square
+  "nitrogen source" = 21   # circle
+)
+modulation_colours <- c(
+  "base medium"     = "#555555",  # dark grey
+  "ammonium"        = "#56B4E9",  # cyan
+  "glucose"         = "#009E73",  # green
+  "cycloheximide"   = "#E69F00",  # orange
+  "nitrogen source" = "#AAAAAA"   # light grey
+)
+
+```
+
+## Prepare data for plotting
+
+```{r}
+shape_summaries <- summaries %>%
+  left_join(
+    cultures,
+    by = c("culture_id", "modulation", "mod_value", "growth_rate")
+  ) %>%
+  filter(
+    (n_cells >= 40) | (modulation == "nitrogen source")
+  ) %>%
+  arrange(desc(modulation))
+```
+
+
+# Figure panels
+
+## C: Surface-to-volume ratio vs. width
+
+```{r}
+fig_width_SV_ratio <- shape_summaries %>%
+  ggplot(aes(x = width_mean, y = SV_ratio_mean)) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = TRUE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(2.4, 3.40001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(1.1, 1.6),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  labs(
+    x = expression("Width ("*mu*m*")"),
+    y = expression("Mean S/V ratio ("*mu*m^{-1}*")")
+  ) +
+  theme(
+    legend.position = c(0.05, 0.05),
+    legend.justification = c(0, 0),
+    legend.background = element_rect(colour = "black", linewidth = 0.25)
+  )
+fig_width_SV_ratio
+```
+
+## D: Volume
+
+```{r}
+fig_volume <- shape_summaries %>%
+  ggplot(aes(x = growth_rate, y = volume_mean)) +
+  geom_smooth(
+    data = filter(
+      shape_summaries,
+      modulation %in% c("base medium", "cycloheximide")
+    ),
+    method = "lm",
+    colour = modulation_colours[["cycloheximide"]],
+    linetype = "21",
+    se = FALSE,
+    fullrange = FALSE
+  ) +
+  geom_smooth(
+    data = filter(
+      shape_summaries,
+      modulation %in% c("base medium", "ammonium", "glucose")
+    ),
+    method = "lm",
+    colour = modulation_colours[["base medium"]],
+    se = TRUE,
+    fullrange = TRUE,
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = volume_mean - volume_sd,
+      ymax = volume_mean + volume_sd,
+      colour = modulation
+    ),
+    width = 0.01,
+    linewidth = 0.25,
+    show.legend = FALSE
+  ) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(0, 0.30001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(0, 160),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  scale_colour_manual(values = modulation_colours) +
+  labs(
+    x = expression("Growth rate ("*h^{-1}*")"),
+    y = expression("Volume ("*mu*m^3*")")
+  )
+fig_volume
+```
+
+## E: Surface-to-volume ratio
+
+```{r}
+
+summaries_for_smooth_SV <- shape_summaries %>%
+  filter(modulation != "nitrogen source") %>%
+  left_join(
+    tibble(
+      modulation = "base medium",
+      model_group = c("ammonium", "cycloheximide", "glucose")
+    ),
+    by = "modulation"
+  ) %>%
+  mutate(
+    model_group = if_else(is.na(model_group), modulation, model_group)
+  )
+
+fig_SV_ratio <- shape_summaries %>%
+  ggplot(aes(x = growth_rate, y = SV_ratio_mean)) +
+  geom_smooth(
+    data = summaries_for_smooth_SV,
+    aes(colour = model_group),
+    linetype = "21",
+    method = "lm",
+    se = FALSE,
+    show.legend = FALSE
+  ) +
+  geom_errorbar(
+    aes(
+      ymin = SV_ratio_mean - SV_ratio_sd,
+      ymax = SV_ratio_mean + SV_ratio_sd,
+      colour = modulation
+    ),
+    width = 0.01,
+    linewidth = 0.25,
+    show.legend = FALSE
+  ) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(0, 0.30001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(1.05, 1.700001),
+    breaks = seq(1.0, 1.7, 0.1),
+    minor_breaks = seq(1.0, 1.7, 0.05),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  scale_colour_manual(values = modulation_colours) +
+  labs(
+    x = expression("Growth rate ("*h^{-1}*")"),
+    y = expression("Mean S/V ratio ("*mu*m^{-1}*")")
+  )
+fig_SV_ratio
+```
+
+## F: Surface area
+
+```{r}
+fig_surface <- shape_summaries %>%
+  ggplot(aes(x = growth_rate, y = surface_mean)) +
+  geom_errorbar(
+    aes(
+      ymin = surface_mean - surface_sd,
+      ymax = surface_mean + surface_sd,
+      colour = modulation
+    ),
+    width = 0.01,
+    linewidth = 0.25,
+    show.legend = FALSE
+  ) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(0, 0.30001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(60, 180),
+    breaks = seq(60, 180, 40),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  scale_colour_manual(values = modulation_colours) +
+  labs(
+    x = expression("Growth rate ("*h^{-1}*")"),
+    y = expression("Surface area ("*mu*m^2*")")
+  )
+fig_surface
+```
+
+## G: Length
+
+```{r}
+fig_length <- shape_summaries %>%
+  ggplot(aes(x = growth_rate, y = length_mean)) +
+  geom_errorbar(
+    aes(
+      ymin = length_mean - length_sd,
+      ymax = length_mean + length_sd,
+      colour = modulation
+    ),
+    width = 0.01,
+    linewidth = 0.25,
+    show.legend = FALSE
+  ) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(0, 0.30001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(8, 18),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  scale_colour_manual(values = modulation_colours) +
+  labs(
+    x = expression("Growth rate ("*h^{-1}*")"),
+    y = expression("Length ("*mu*m*")")
+  )
+fig_length
+```
+
+## H: Width
+
+```{r}
+fig_width <- shape_summaries %>%
+  ggplot(aes(x = growth_rate, y = width_mean)) +
+  geom_errorbar(
+    aes(
+      ymin = width_mean - width_sd,
+      ymax = width_mean + width_sd,
+      colour = modulation
+    ),
+    width = 0.01,
+    linewidth = 0.25,
+    show.legend = FALSE
+  ) +
+  geom_point(
+    aes(fill = modulation, shape = modulation),
+    size = 2,
+    show.legend = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = nitrogen_source),
+    data = filter(shape_summaries, modulation == "nitrogen source"),
+    size = 6 / .pt,
+    force = 2
+  ) +
+  scale_x_continuous(limits = c(0, 0.30001), expand = expansion(0, 0)) +
+  scale_y_continuous(
+    limits = c(2.2, 3.60001),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_shape_manual(values = modulation_shapes) +
+  scale_fill_manual(values = modulation_colours) +
+  scale_colour_manual(values = modulation_colours) +
+  labs(
+    x = expression("Growth rate ("*h^{-1}*")"),
+    y = expression("Width ("*mu*m*")")
+  )
+fig_width
+```
+
+# Assembled panels C-H
+
+```{r}
+grid6 <- plot_grid(
+  fig_width_SV_ratio, fig_volume, fig_SV_ratio,
+  fig_surface, fig_length, fig_width,
+  nrow = 2,
+  labels = c("C", "D", "E", "F", "G", "H"),
+  label_size = 8
+)
+grid6
+```
+
+```{r}
+ggsave(
+  "gridCDEFGH.png",
+  grid6,
+  path = here::here("vignettes", "articles", "micropublication-figures"),
+  width = 18,
+  height = 12,
+  units = "cm"
+)
+```
+
