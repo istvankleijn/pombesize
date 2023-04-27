@@ -31,7 +31,7 @@ glucose <- tibble::tibble(
   mod_value = as.character(c(0.2, 0.15, 0.1, 0.0075, 0.005)),
   growth_rate = c(0.223, 0.255, 0.169, 0.148, 0.123),
   ammonium_concentration = ammonium_base,
-  glucose_concentration = NA_real_,
+  glucose_concentration = c(2.0, 1.5, 1.0, 0.75, 0.5),
   cycloheximide_concentration = 0,
   nitrogen_source = nitrogen_base
 )

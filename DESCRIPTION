@@ -1,7 +1,7 @@
 Package: pombesize
 Type: Package
 Title: Single-Cell Fission Yeast Size and Geometry
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person(
     "Istvan", "Kleijn",
     role = c("aut", "cre"),
@@ -13,7 +13,7 @@ Description: Size and geometry data of 1242 Schizosaccharomyces pombe cells
     width, surface area, and volume. Also provides details about the culture 
     conditions that the cells were grown in, and summary statistics of the
     single-cell data set grouped by culture condition.
-License: What license is it under?
+License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true
 Depends: 
