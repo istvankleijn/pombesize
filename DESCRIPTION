@@ -1,26 +1,27 @@
-Package: pombesize
 Type: Package
+Package: pombesize
 Title: Single-Cell Fission Yeast Size and Geometry
-Version: 0.1.1
-Authors@R: person(
-    "Istvan", "Kleijn",
-    role = c("aut", "cre"),
-    email = c("istvankleijn@users.noreply.github.com"),
-    comment = c(ORCID = "0000-0001-9466-9167")
-    )
-Description: Size and geometry data of 1242 Schizosaccharomyces pombe cells
-    across 25 growth conditions. The included cell size measures are length,
-    width, surface area, and volume. Also provides details about the culture 
-    conditions that the cells were grown in, and summary statistics of the
-    single-cell data set grouped by culture condition.
+Version: 0.2.0
+Authors@R: 
+    person("Istvan", "Kleijn", , "istvankleijn@users.noreply.github.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9466-9167"))
+Description: Size and geometry data of 1242 Schizosaccharomyces pombe
+    cells across 25 growth conditions. The included cell size measures are
+    length, width, surface area, and volume. Also provides details about
+    the culture conditions that the cells were grown in, and summary
+    statistics of the single-cell data set grouped by culture condition.
 License: CC BY 4.0
-Encoding: UTF-8
-LazyData: true
-Depends: 
-    R (>= 2.10)
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Suggests: 
-    rmarkdown
 URL: https://github.com/istvankleijn/pombesize
 BugReports: https://github.com/istvankleijn/pombesize/issues
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    cowplot,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

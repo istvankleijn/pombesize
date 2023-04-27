@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(pombesize)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(ggrepel)
 library(cowplot)
 ```
