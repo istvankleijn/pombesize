@@ -1,7 +1,7 @@
 Type: Package
 Package: pombesize
 Title: Single-Cell Fission Yeast Size and Geometry
-Version: 0.2.0
+Version: 1.0.0
 Authors@R: 
     person("Istvan", "Kleijn", , "istvankleijn@users.noreply.github.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9466-9167"))

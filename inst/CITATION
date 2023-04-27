@@ -11,7 +11,6 @@ citEntry(
   ),
   journal  = "microPublication Biology",
   year     = 2023,
-  textVersion = paste(
-
-  )
+  doi      = "10.17912/micropub.biology.000833",
+  textVersion = "Bertaux, F; Kleijn, IT; Marguerat, S; Shahrezaei, V (2023). Fission yeast obeys a linear size law under nutrient titration. microPublication Biology. 10.17912/micropub.biology.000833"
 )
